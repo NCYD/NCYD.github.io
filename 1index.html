@@ -1,0 +1,394 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>宁驰翼动</title>
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    :root {
+      --bg: #050816;
+      --bg2: #0b1023;
+      --text: #e8ecff;
+      --sub: #a7b0d6;
+      --line: rgba(255,255,255,0.12);
+      --glass: rgba(255,255,255,0.06);
+      --blue: #57d6ff;
+      --purple: #8b5cf6;
+    }
+
+    body {
+      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "PingFang SC",
+        "Hiragino Sans GB", "Microsoft YaHei", sans-serif;
+      background:
+        radial-gradient(circle at 20% 20%, rgba(87,214,255,0.18), transparent 25%),
+        radial-gradient(circle at 80% 30%, rgba(139,92,246,0.20), transparent 25%),
+        linear-gradient(135deg, var(--bg), var(--bg2));
+      color: var(--text);
+      min-height: 100vh;
+      overflow-x: hidden;
+    }
+
+    body::before {
+      content: "";
+      position: fixed;
+      inset: 0;
+      background-image:
+        linear-gradient(rgba(255,255,255,0.035) 1px, transparent 1px),
+        linear-gradient(90deg, rgba(255,255,255,0.035) 1px, transparent 1px);
+      background-size: 36px 36px;
+      pointer-events: none;
+      mask-image: linear-gradient(to bottom, rgba(0,0,0,0.9), rgba(0,0,0,0.3));
+    }
+
+    .container {
+      width: min(1120px, 92%);
+      margin: 0 auto;
+    }
+
+    .nav {
+      position: sticky;
+      top: 0;
+      z-index: 10;
+      backdrop-filter: blur(12px);
+      background: rgba(5,8,22,0.45);
+      border-bottom: 1px solid rgba(255,255,255,0.08);
+    }
+
+    .nav-inner {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 18px 0;
+    }
+
+    .logo {
+      font-weight: 700;
+      letter-spacing: 1px;
+    }
+
+    .logo span {
+      color: var(--blue);
+    }
+
+    .nav a {
+      color: var(--sub);
+      text-decoration: none;
+      margin-left: 20px;
+      transition: 0.3s;
+    }
+
+    .nav a:hover {
+      color: var(--text);
+    }
+
+    .hero {
+      min-height: 88vh;
+      display: grid;
+      align-items: center;
+      padding: 80px 0 40px;
+    }
+
+    .eyebrow {
+      display: inline-block;
+      padding: 8px 14px;
+      border: 1px solid rgba(87,214,255,0.25);
+      border-radius: 999px;
+      background: rgba(87,214,255,0.08);
+      color: #baf0ff;
+      font-size: 14px;
+      margin-bottom: 22px;
+    }
+
+    h1 {
+      font-size: clamp(42px, 9vw, 88px);
+      line-height: 0.95;
+      letter-spacing: -0.03em;
+      margin-bottom: 18px;
+    }
+
+    .gradient-text {
+      background: linear-gradient(90deg, #ffffff, #8fe8ff, #b79cff);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+    }
+
+    .hero p {
+      max-width: 760px;
+      font-size: clamp(16px, 2vw, 20px);
+      color: var(--sub);
+      line-height: 1.8;
+      margin-bottom: 28px;
+    }
+
+    .buttons {
+      display: flex;
+      gap: 14px;
+      flex-wrap: wrap;
+      margin-bottom: 38px;
+    }
+
+    .btn {
+      padding: 14px 22px;
+      border-radius: 14px;
+      text-decoration: none;
+      transition: transform 0.25s ease, box-shadow 0.25s ease, border-color 0.25s ease;
+      border: 1px solid transparent;
+      display: inline-block;
+    }
+
+    .btn-primary {
+      color: #06111f;
+      background: linear-gradient(90deg, var(--blue), #9cc9ff);
+      box-shadow: 0 10px 30px rgba(87,214,255,0.22);
+      font-weight: 700;
+    }
+
+    .btn-secondary {
+      color: var(--text);
+      background: rgba(255,255,255,0.04);
+      border-color: rgba(255,255,255,0.12);
+      backdrop-filter: blur(10px);
+    }
+
+    .btn:hover {
+      transform: translateY(-2px);
+    }
+
+    .stats {
+      display: grid;
+      grid-template-columns: repeat(3, minmax(0, 1fr));
+      gap: 16px;
+      margin-top: 12px;
+    }
+
+    .card {
+      background: var(--glass);
+      border: 1px solid var(--line);
+      border-radius: 22px;
+      padding: 22px;
+      backdrop-filter: blur(14px);
+      box-shadow: 0 10px 40px rgba(0,0,0,0.22);
+    }
+
+    .stat-number {
+      font-size: 28px;
+      font-weight: 800;
+      margin-bottom: 8px;
+    }
+
+    .stat-text {
+      color: var(--sub);
+      font-size: 14px;
+      line-height: 1.7;
+    }
+
+    section {
+      padding: 40px 0 24px;
+    }
+
+    .section-title {
+      font-size: 28px;
+      margin-bottom: 18px;
+    }
+
+    .section-desc {
+      color: var(--sub);
+      max-width: 760px;
+      line-height: 1.8;
+      margin-bottom: 22px;
+    }
+
+    .project-grid {
+      display: grid;
+      grid-template-columns: repeat(3, minmax(0, 1fr));
+      gap: 18px;
+    }
+
+    .project-card {
+      position: relative;
+      overflow: hidden;
+    }
+
+    .project-card::after {
+      content: "";
+      position: absolute;
+      inset: auto -20% -60% auto;
+      width: 180px;
+      height: 180px;
+      background: radial-gradient(circle, rgba(87,214,255,0.22), transparent 65%);
+      pointer-events: none;
+    }
+
+    .tag {
+      display: inline-block;
+      font-size: 12px;
+      color: #baf0ff;
+      padding: 6px 10px;
+      border-radius: 999px;
+      border: 1px solid rgba(87,214,255,0.18);
+      margin-bottom: 12px;
+      background: rgba(87,214,255,0.06);
+    }
+
+    .project-card h3 {
+      font-size: 20px;
+      margin-bottom: 10px;
+    }
+
+    .project-card p {
+      color: var(--sub);
+      line-height: 1.8;
+      font-size: 14px;
+    }
+
+    .contact-box {
+      display: grid;
+      grid-template-columns: 1.2fr 0.8fr;
+      gap: 18px;
+      margin-bottom: 60px;
+    }
+
+    .contact-list a {
+      display: block;
+      color: var(--text);
+      text-decoration: none;
+      padding: 14px 0;
+      border-bottom: 1px solid rgba(255,255,255,0.08);
+      word-break: break-all;
+    }
+
+    .footer {
+      color: rgba(255,255,255,0.45);
+      padding: 28px 0 50px;
+      font-size: 14px;
+    }
+
+    @media (max-width: 900px) {
+      .stats,
+      .project-grid,
+      .contact-box {
+        grid-template-columns: 1fr;
+      }
+
+      .nav-inner {
+        flex-direction: column;
+        gap: 12px;
+      }
+
+      .nav-links a {
+        margin: 0 10px;
+      }
+    }
+  </style>
+</head>
+<body>
+  <header class="nav">
+    <div class="container nav-inner">
+      <div class="logo">NINGCHI<span>.AERO</span></div>
+      <nav class="nav-links">
+        <a href="#about">关于</a>
+        <a href="#projects">项目</a>
+        <a href="#contact">联系</a>
+      </nav>
+    </div>
+  </header>
+
+  <main class="container">
+    <section class="hero">
+      <div>
+        <div class="eyebrow">NINGCHI YIDONG / FUTURE TECH</div>
+        <h1>
+          欢迎来到 <span class="gradient-text">宁驰翼动</span>
+        </h1>
+        <p>
+          宁驰翼动专注于航空动力与飞行技术方向，围绕无人机、旋翼与电机等核心领域，
+          打造兼具科技感、未来感与专业感的展示平台，用更清晰直观的方式呈现技术实力与项目成果。
+        </p>
+
+        <div class="buttons">
+          <a class="btn btn-primary" href="#projects">查看项目</a>
+          <a class="btn btn-secondary" href="#contact">联系我们</a>
+        </div>
+
+        <div class="stats">
+          <div class="card">
+            <div class="stat-number">01</div>
+            <div class="stat-text">无人机系统方向，聚焦飞行平台、结构设计与应用场景展示。</div>
+          </div>
+          <div class="card">
+            <div class="stat-number">02</div>
+            <div class="stat-text">旋翼技术方向，突出空气动力特性、稳定性与高效协同能力。</div>
+          </div>
+          <div class="card">
+            <div class="stat-number">03</div>
+            <div class="stat-text">电机动力方向，强调效率、响应速度与动力输出的可靠表现。</div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section id="about">
+      <h2 class="section-title">关于我们</h2>
+      <p class="section-desc">
+        宁驰翼动致力于飞行器相关核心技术与动力系统展示，面向无人机、旋翼和电机等方向，
+        呈现技术研发、项目成果与创新理念。整体网站采用深色未来感设计语言，
+        以更专业、更高级的视觉风格体现品牌形象。
+      </p>
+    </section>
+
+    <section id="projects">
+      <h2 class="section-title">核心项目</h2>
+      <p class="section-desc">
+        以下为宁驰翼动当前重点展示的三大方向，分别体现平台能力、关键部件与动力核心。
+      </p>
+
+      <div class="project-grid">
+        <div class="card project-card">
+          <div class="tag">Project 01</div>
+          <h3>无人机</h3>
+          <p>围绕无人机平台设计、结构集成、飞行控制与多场景应用展开，展示整体飞行系统的技术能力与发展方向。</p>
+        </div>
+
+        <div class="card project-card">
+          <div class="tag">Project 02</div>
+          <h3>旋翼</h3>
+          <p>聚焦旋翼系统的空气动力性能、稳定性与效率优化，体现关键飞行部件在整体系统中的核心作用。</p>
+        </div>
+
+        <div class="card project-card">
+          <div class="tag">Project 03</div>
+          <h3>电机</h3>
+          <p>展示电机作为动力核心在响应速度、能效控制与持续输出方面的重要价值，体现动力系统的可靠基础。</p>
+        </div>
+      </div>
+    </section>
+
+    <section id="contact">
+      <h2 class="section-title">联系方式</h2>
+      <div class="contact-box">
+        <div class="card">
+          <p class="section-desc" style="margin-bottom:0;">
+            欢迎就无人机、旋翼、电机相关方向进行交流与合作，
+            也可用于品牌展示、项目介绍与业务联系。
+          </p>
+        </div>
+
+        <div class="card contact-list">
+          <a href="mailto:1820493691@qq.com">Email / 1820493691@qq.com</a>
+          <a href="mailto:1820493691@qq.com">Business Contact / 1820493691@qq.com</a>
+        </div>
+      </div>
+    </section>
+
+    <div class="footer">
+      © 2026 宁驰翼动. Built with GitHub Pages.
+    </div>
+  </main>
+</body>
+</html>
